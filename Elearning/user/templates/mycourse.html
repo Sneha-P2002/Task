@@ -18,29 +18,9 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
     integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous">
   </script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css">
-
-
 </head>
 <body>
-
     
-<nav class="navbar navbar-light bg-primary">
-    <a class="navbar-brand" href="#" style="padding-left: 40px;">
-        <i class="bi bi-x-diamond-fill "></i>
-      E-learning
-    </a>
-    <a class="form-inline my-2 my-lg-0 text-light"  href="{% url 'My' %}">
-        <i class="bi bi-journal-bookmark-fill">
-        </i>My Courses
-    </a>
-    <a class="form-inline my-2 my-lg-0 text-light" style="padding-right: 40px;" href="{% url 'logout' %}">
-        <i class="bi-box-arrow-in-left"></i>
-        </i>Logout
-    </a>
-      
-  </nav>
-
     {% for co in course %}
     <div class="m-4">
         <div class="card" style="max-width: 750px;">
@@ -50,10 +30,10 @@
                 </div>
                 <div class="col-sm-7">
                     <div class="card-body">
-                        <h5 class="card-title">{{ co.title }}</h5>
-                        <p class="card-text">{{ co.description }}</p>
-                        <a href="{% url 'Pay' %}" class="btn btn-primary stretched-link">Buy at {{ co.price }}$</a>
-                        <a href="{% url 'Add' co.id %}" class="btn btn-info stretched-link">Add to Cart</a>
+                        <h5 class="card-title">{{ co.course.title }}</h5>
+                        <p class="card-text">{{ co.course.description }}</p>
+                        <a href="{% url 'Pay' %}" class="btn btn-primary stretched-link">Buy at {{ co.course.price }}$</a>
+                        <a href="{% url 'Del' co.course.id %}" class="btn btn-danger stretched-link">Delete From Cart</a>
                     </div>
                 </div>
             </div>
@@ -61,6 +41,6 @@
     </div>
     {% endfor %}
 
+    <a href="{% url 'Course' %}"> &lt;Home </a>
 </body>
-
 </html>

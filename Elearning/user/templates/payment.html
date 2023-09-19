@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Payment Form</title>
+  <!-- Include Stripe.js -->
+  <script src="https://js.stripe.com/v3/"></script>
+</head>
+<body>
+  <h1>Payment Form</h1>
+
+  <form id="payment-form">
+    <div id="card-element">
+        
+    </div>
+    <div id="card-expiry-element">
+      <!-- A Stripe Element for card expiration date -->
+    </div>
+    <div id="card-cvc-element">
+      <!-- A Stripe Element for card CVC -->
+    </div>
+    <button id="submit">
+      Pay Now
+    </button>
+  </form>
+
+  <script>
+    var stripe = Stripe('pk_test_51Nruf7SGfwN9g5Wd3N2rTkJ7uX3E1KhgDyGrmbtkDA0uVgZTlZIeBcTkPlRLL8nmHMrzvXPGOl3XOyNrwPKSTspd00GfCK4ISq');
+    var elements = stripe.elements();
+
+    // Create an instance of the card Element for card number.
+    var cardElement = elements.create('card');
+
+    // Add an instance of the card Element into the `card-element` div.
+    cardElement.mount('#card-element');
+
+    // Create an instance of the card Expiry Element.
+    var cardExpiryElement = elements.create('cardExpiry');
+
+    // Add an instance of the card Expiry Element into the `card-expiry-element` div.
+    cardExpiryElement.mount('#card-expiry-element');
+
+    // Create an instance of the card CVC Element.
+    var cardCvcElement = elements.create('cardCvc');
+
+    // Add an instance of the card CVC Element into the `card-cvc-element` div.
+    cardCvcElement.mount('#card-cvc-element');
+
+    var form = document.getElementById('payment-form');
+
+    form.addEventListener('submit', function(event) {
+      event.preventDefault();
+
+      stripe.confirmCardPayment(clientSecret, {
+        payment_method: {
+          card: cardElement,
+          billing_details: {
+            // Include any additional billing details if needed.
+          },
+        },
+      }).then(function(result) {
+        if (result.error) {
+          // Display error to your customer
+          console.error(result.error.message);
+        } else {
+          // The payment succeeded
+          if (result.paymentIntent.status === 'succeeded') {
+            // Handle successful payment, e.g., show a success message
+            alert('Payment successful! Thank you.');
+          }
+        }
+      });
+    });
+  </script>
+</body>
+</html>
